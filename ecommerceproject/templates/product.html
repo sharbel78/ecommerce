@@ -1,0 +1,46 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block metadescription %}
+
+        {{ product1.description|truncatewords:155 }}
+            Welcome to Rose FRESH MILK where you can buy different items....
+
+{% endblock %}
+{% block title %}
+{% if category %}
+            {{ product1.name }} - Rose FRESH MILK
+
+        {% endif %}
+{% endblock %}
+{% block content %}
+<div class="row my_prod_row_class">
+    <div class="mx-auto">
+        <p><a href="{% url 'shop:allProdcat' %}" >Home </a> | <a href="{{product1.category.get_url}}">{{product.category}}</a>|{{product.name}}</p>
+    </div>
+
+<div class="container">
+<br>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <div>
+            <img src="{{product1.image.url}}" alt="{{product1.name}}" width="500px">
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 ">
+        <h1 class="my_prod_title">{{product1.name}}</h1>
+        <p>${{product1.price}}</p>
+        <p class="my_title">Product Description</p>
+        <p class="text-justify my_prod_text">{{product1.description}}</p>
+        {% if product1.stock <= 0 %}
+        <p class="text-justify my_prod_text"><b>Out of stock</b></p>
+        {% else %}
+        <a class="btn btn-secondary" href="{% url 'cart:add_cart' product1.id %}">Add to Cart</a>
+        {% endif %}
+
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

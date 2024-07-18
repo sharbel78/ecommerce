@@ -1,0 +1,80 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block metadescription %}
+   {% if category %}
+        {{ category.description|truncatewords:155 }}
+    {% else %}
+            Welcome to Rose FRESH MILK where you can buy different items....
+    {% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+            {{ category.name }} - Rose FRESH MILK
+        {% else %}
+            see our New collections - Rose FRESH MILK
+        {% endif %}
+{% endblock %}
+{% block content %}
+{% if category %}
+<div>
+    <div class="row my_row_class">
+        <div class="mx-auto">
+        <p>  <a href="{% url 'shop:allProdcat' %}">Our product Collect</a></p>
+    </div>
+        </div>
+</div>
+{% endif %}
+<div class="mx_auto">
+    {% if category %}
+    <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title">{{category.name}}</h1>
+    <p class="text-justify">{{category.description}}</p>
+</div>
+{% else %}
+<div>
+<img class="my_image my_image_padding" src="{% static 'img/banner.jpg' %}" alt="our product">
+
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title"> Our products Collections</h1>
+    <p class="text-justify">Dairy products or milk products, also known as lacticinia, are food products made from (or containing) milk.[a][1] The most common dairy animals are cow, water buffalo, nanny goat, and ewe. Dairy products include common grocery store food items in the Western world such as yogurt, cheese, milk and butter.[2][3] A facility that produces dairy products is known as a dairy.[b][4] Dairy products are consumed worldwide to varying degrees (see consumption patterns worldwide).[5] Some people avoid some or all dairy products either because of lactose intolerance, veganism, or other health reasons or beliefs.</p>
+
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product1 in Products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 xol-lg-4">
+    <div class="card text-center" style="min-width:18rem;">
+        <a href="{{product1.get_url}}"><img class="card-img-top my_image" src="{{product1.image.url}}" alt="{{product.name}}"></a>
+          <div class="card-body">
+        <h4>{{product1.name}}</h4>
+        <p>{{product1.price}}</p>
+    </div>
+    </div>
+
+
+        </div>
+         {% endfor %}
+    </div>
+    <div class="mx_auto">
+        {% if Products.paginator.num_pages > 1 %}
+
+
+        {% endif %}<hr>
+        <div class="text-center">
+            {% for pg in Products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm" {% if Products.number == pg %} active {% endif %}>{{pg}}</a>
+    {% endfor %}
+        </div>
+
+    </div>
+    <br>
+</div>
+
+
+{% endblock %}
